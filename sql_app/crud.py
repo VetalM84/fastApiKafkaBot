@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, join
 
 from . import models, schemas
 
@@ -6,10 +6,23 @@ from . import models, schemas
 def get_user(db: Session, user_telegram_id: int):
     """GEt user by telegram id."""
     return (
-        db.query(models.User)
-        .filter(models.User.telegram_id == user_telegram_id)
-        .first()
+        db.query(models.User).filter(models.User.telegram_id == user_telegram_id).first()
     )
+
+
+def get_user_articles(db: Session, user_telegram_id: int):
+    """Get user articles matching language code and user_telegram_id."""
+    return (
+        # db.query(models.Article.image_url, models.Article.text)
+        # .select_from(join(left=models.Article, right=models.User))
+        # .filter(models.Article.language_code == models.User.language_code)
+        # .filter(models.User.telegram_id == user_telegram_id)
+        # .all()
+
+        db.query(models.Article)
+        .filter(models.Article.language_code == models.User.language_code)
+        .filter(models.User.telegram_id == user_telegram_id)
+        .all())
 
 
 # def get_users(db: Session, skip: int = 0, limit: int = 100):

@@ -42,6 +42,14 @@ def read_user(user_telegram_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
+@app.get("/articles/{user_telegram_id}", response_model=list[schemas.ArticleBase], tags=["article"])
+def read_user_articles(user_telegram_id: int, db: Session = Depends(get_db)):
+    db_articles = crud.get_user_articles(db, user_telegram_id=user_telegram_id)
+    # if db_user is None:
+    #     raise HTTPException(status_code=404, detail="User not found")
+    return db_articles
+
+
 # @app.post("/users/{user_id}/items/", response_model=schemas.Item, tags=["item"])
 # def create_item_for_user(
 #     user_id: int, item: schemas.ItemCreate, db: Session = Depends(get_db)
