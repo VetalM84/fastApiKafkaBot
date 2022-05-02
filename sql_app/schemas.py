@@ -5,7 +5,7 @@ class ArticleBase(BaseModel):
     """Base serializer for an article."""
     text: str = Field(..., min_length=50, max_length=1024)
     image_url: HttpUrl = Field(..., title="Image URL")
-    language_code: str = Field(..., max_length=3, min_length=2)
+    language_code: str = Field('ru', max_length=3, min_length=2)
 
     class Config:
         """Enable ORM mode for all child methods."""
