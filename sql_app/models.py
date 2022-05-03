@@ -5,11 +5,13 @@ from sqlalchemy.orm import relationship
 
 from .database import Base
 
-sent_log = Table('sent_log', Base.metadata,
-                 Column('user_id', ForeignKey('users.id'), primary_key=True),
-                 Column('article_id', ForeignKey('articles.id'), primary_key=True),
-                 # Column('sent_time', datetime.datetime.now(), primary_key=True),
-                 )
+sent_log = Table(
+    "sent_log",
+    Base.metadata,
+    Column("user_id", ForeignKey("users.id"), primary_key=True),
+    Column("article_id", ForeignKey("articles.id"), primary_key=True),
+    # Column('sent_time', datetime.datetime.now(), primary_key=True),
+)
 
 
 class User(Base):
@@ -21,7 +23,9 @@ class User(Base):
     pet_name = Column(String(50))
     language_code = Column(String(5))
 
-    sent_articles = relationship("Article", secondary=sent_log, back_populates="sent_to_user")
+    sent_articles = relationship(
+        "Article", secondary=sent_log, back_populates="sent_to_user"
+    )
 
 
 class Article(Base):
@@ -32,7 +36,10 @@ class Article(Base):
     image_url = Column(String(500))
     language_code = Column(String(255), index=True)
 
-    sent_to_user = relationship("User", secondary=sent_log, back_populates="sent_articles")
+    sent_to_user = relationship(
+        "User", secondary=sent_log, back_populates="sent_articles"
+    )
+
 
 # class Log(Base):
 #     __tablename__ = "sent_log"
