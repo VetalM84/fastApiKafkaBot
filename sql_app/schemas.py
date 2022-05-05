@@ -3,12 +3,11 @@ from typing import List
 from pydantic import BaseModel, HttpUrl, Field
 
 
-class UserArticleView(BaseModel):
+class UserInArticleView(BaseModel):
     """A list of users article is sent to."""
 
+    id: int = Field(...)
     telegram_id: int = Field(..., ge=0)
-    username: str = Field(..., max_length=50)
-    language_code: str = Field(..., max_length=3, min_length=2)
 
     class Config:
         """Enable ORM mode."""
@@ -19,10 +18,11 @@ class UserArticleView(BaseModel):
 class ArticleBase(BaseModel):
     """Base serializer for an article."""
 
+    id: int = Field(...)
     text: str = Field(..., min_length=50, max_length=1024)
     image_url: HttpUrl = Field(..., title="Image URL")
     language_code: str = Field("ru", max_length=3, min_length=2)
-    sent_to_user: List[UserArticleView] = []
+    sent_to_user: List[UserInArticleView] = []
 
     class Config:
         """Enable ORM mode for all child methods."""
@@ -61,6 +61,7 @@ class UserBase(BaseModel):
     username: str = Field(..., max_length=50)
     pet_name: str = Field(..., max_length=50)
     language_code: str = Field(..., max_length=3, min_length=2)
+
     # sent_articles: List[ArticleBase] = []
 
     class Config:
