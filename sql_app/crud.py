@@ -12,10 +12,19 @@ def get_user(db: Session, user_telegram_id: int):
     )
 
 
+def get_sent_to_user_articles(db: Session, user_telegram_id: int):
+    """Get user articles matching language code and user_telegram_id."""
+    return (
+        db.query(models.User)
+        .filter(models.User.telegram_id == user_telegram_id)
+        .first()
+    )
+
+
 def get_user_articles(
     db: Session, user_telegram_id: int, skip: int = 0, limit: int = 100
 ):
-    """Get user articles matching language code and user_telegram_id."""
+    """Get user articles matching language code by user_telegram_id."""
     current_user = (
         db.query(models.User)
         .filter(models.User.telegram_id == user_telegram_id)
@@ -28,38 +37,6 @@ def get_user_articles(
         .limit(limit)
         .all()
     )
-
-
-def get_sent_articles(
-    db: Session, user_telegram_id: int, skip: int = 0, limit: int = 100
-):
-    """Get sent articles for user telegram_id."""
-    current_user = (
-        db.query(models.User)
-        .filter(models.User.telegram_id == user_telegram_id)
-        .first()
-    )
-    # print("Current user id: ", current_user.id)
-    # отобразит все статьи отправленные конкретному юзеру
-    # db.query(models.Article)
-    # .join(models.sent_log)
-    # .filter(models.User.telegram_id <> user_telegram_id)
-    # .filter(models.Article.language_code == models.User.language_code)
-    # .all()
-    # отобразит все подходящие статьи неотправленные и отправленные тоже
-
-    return (
-        db.query(models.Article)
-        .filter(models.Article.language_code == models.User.language_code)
-        .offset(skip)
-        .limit(limit)
-        .all()
-    )
-
-
-# def get_users(db: Session, skip: int = 0, limit: int = 100):
-#     """Get all users."""
-#     return db.query(models.User).offset(skip).limit(limit).all()
 
 
 def create_user(db: Session, user: schemas.UserCreate):

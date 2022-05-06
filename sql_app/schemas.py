@@ -4,10 +4,10 @@ from pydantic import BaseModel, HttpUrl, Field
 
 
 class UserInArticleView(BaseModel):
-    """A list of users article is sent to."""
+    """What fields will be in nested sent_to_user list."""
 
-    id: int = Field(...)
-    telegram_id: int = Field(..., ge=0)
+    id: int
+    telegram_id: int
 
     class Config:
         """Enable ORM mode."""
@@ -18,7 +18,7 @@ class UserInArticleView(BaseModel):
 class ArticleBase(BaseModel):
     """Base serializer for an article."""
 
-    id: int = Field(...)
+    id: int
     text: str = Field(..., min_length=50, max_length=1024)
     image_url: HttpUrl = Field(..., title="Image URL")
     language_code: str = Field("ru", max_length=3, min_length=2)
@@ -30,23 +30,23 @@ class ArticleBase(BaseModel):
         orm_mode = True
 
 
-class ArticleCreate(ArticleBase):
+class ArticleCreate(BaseModel):
     """Serializer for creating an article."""
-
-    pass
-
-
-class ArticleEdit(ArticleBase):
-    """Serializer for editing an article."""
-
-    id: int
-
-
-class ArticleSentView(BaseModel):
-    """What user will view in sent_articles list."""
 
     text: str = Field(..., min_length=50, max_length=1024)
     image_url: HttpUrl = Field(..., title="Image URL")
+    language_code: str = Field("ru", max_length=3, min_length=2)
+
+    class Config:
+        """Enable ORM mode for all child methods."""
+
+        orm_mode = True
+
+
+class ArticleSentView(BaseModel):
+    """What fields will be in nested sent_articles list."""
+
+    id: int
 
     class Config:
         """Enable ORM mode."""
@@ -66,6 +66,17 @@ class UserBase(BaseModel):
 
     class Config:
         """Enable ORM mode for all child methods."""
+
+        orm_mode = True
+
+
+class UserArticlesSentView(UserBase):
+    """What fields will be in nested sent_articles list."""
+
+    sent_articles: List[ArticleSentView] = []
+
+    class Config:
+        """Enable ORM mode."""
 
         orm_mode = True
 

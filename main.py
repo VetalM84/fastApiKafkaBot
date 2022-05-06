@@ -56,6 +56,19 @@ def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)
 
 
 @app.get(
+    "/users/{telegram_id}/articles",
+    response_model=schemas.UserArticlesSentView,
+    tags=["user"],
+)
+def read_sent_to_user_articles(telegram_id: int, db: Session = Depends(get_db)):
+    """Get user articles matching language code and user_telegram_id."""
+    db_articles = crud.get_sent_to_user_articles(db, user_telegram_id=telegram_id)
+    if db_articles is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_articles
+
+
+@app.get(
     "/articles/{telegram_id}/user",
     response_model=list[schemas.ArticleBase],
     tags=["article"],
@@ -77,7 +90,7 @@ def read_articles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 
 @app.get("/articles/{article_id}", response_model=schemas.ArticleBase, tags=["article"])
 def read_article(article_id: int, db: Session = Depends(get_db)):
-    """Read article by id."""
+    """Read single article by id."""
     db_article = crud.get_article(db, article_id=article_id)
     if db_article is None:
         raise HTTPException(status_code=404, detail="Article not found")
