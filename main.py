@@ -1,3 +1,5 @@
+"""Main startup file for the FastAPI application with all endpoints."""
+
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 

@@ -1,3 +1,5 @@
+"""Models for SQLAlchemy."""
+
 import datetime
 
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
@@ -15,6 +17,8 @@ sent_log = Table(
 
 
 class User(Base):
+    """User model. Has Many2Many relationship with Article."""
+
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -29,6 +33,8 @@ class User(Base):
 
 
 class Article(Base):
+    """Article model. Has Many2Many relationship with User."""
+
     __tablename__ = "articles"
 
     id = Column(Integer, primary_key=True, index=True)

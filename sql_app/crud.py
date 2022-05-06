@@ -1,3 +1,5 @@
+"""Functions to create, read, update, and delete data from the database."""
+
 from sqlalchemy.orm import Session
 
 from . import models, schemas

@@ -1,3 +1,5 @@
+"""Schemas for SQLAlchemy data validation. Works both for input and output."""
+
 from typing import List
 
 from pydantic import BaseModel, HttpUrl, Field
