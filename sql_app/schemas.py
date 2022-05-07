@@ -1,4 +1,4 @@
-"""Schemas for SQLAlchemy data validation. Works both for input and output."""
+"""Schemas for request body data validation. Works both for input and output."""
 
 from typing import List
 
