@@ -33,7 +33,7 @@ def get_user_articles(
         .first()
     )
     return (
-        db.query(models.Article)
+        db.query(models.Article).order_by(models.Article.id)
         .filter(models.Article.language_code == current_user.language_code)
         .offset(skip)
         .limit(limit)
