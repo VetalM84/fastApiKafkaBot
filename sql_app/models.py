@@ -1,8 +1,6 @@
 """Models for SQLAlchemy."""
 
-import datetime
-
-from sqlalchemy import Column, ForeignKey, Integer, String, Table
+from sqlalchemy import Column, ForeignKey, Integer, String, Table, DateTime, text
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -12,7 +10,7 @@ sent_log = Table(
     Base.metadata,
     Column("user_id", ForeignKey("users.id"), primary_key=True),
     Column("article_id", ForeignKey("articles.id"), primary_key=True),
-    # Column('sent_time', datetime.datetime.now(), primary_key=True),
+    Column('sent_time', DateTime(), server_default=text('NOW()')),
 )
 
 
