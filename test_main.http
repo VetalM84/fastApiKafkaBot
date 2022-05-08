@@ -1,0 +1,51 @@
+# Test your FastAPI endpoints
+### user with 381683968
+GET http://127.0.0.1:8000/users/381683968
+Accept: application/json
+
+### user with articles
+GET http://127.0.0.1:8000/users/381683968/articles
+
+Accept: application/json
+
+### create user
+POST http://127.0.0.1:8000/users
+Content-Type: application/json
+
+{
+  "telegram_id": 1111111,
+  "username": "string",
+  "pet_name": "string",
+  "language_code": "ru"
+}
+
+### all articles
+GET http://127.0.0.1:8000/articles
+Accept: application/json
+
+### articles for user
+GET http://127.0.0.1:8000/articles/381683968/user
+Accept: application/json
+
+### article by id
+GET http://127.0.0.1:8000/articles/1
+Accept: application/json
+
+### new article
+POST http://127.0.0.1:8000/articles/
+Content-Type: application/json
+
+{
+  "text": "stringstringstringstringstringstringstringstringst",
+  "image_url": "http://test.kk/test.jpg",
+  "language_code": "ru"
+}
+
+### set article as read
+POST http://127.0.0.1:8000/articles/set_sent
+Content-Type: application/json
+
+{
+  "user_id": 2,
+  "article_id": 2
+}
