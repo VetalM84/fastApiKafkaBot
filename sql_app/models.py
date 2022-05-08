@@ -1,6 +1,6 @@
 """Models for SQLAlchemy."""
 
-from sqlalchemy import Column, ForeignKey, Integer, String, Table, DateTime, text
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Table, text
 from sqlalchemy.orm import relationship
 
 from .database import Base
