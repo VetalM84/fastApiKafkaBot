@@ -5,7 +5,6 @@ Accept: application/json
 
 ### user with articles
 GET http://127.0.0.1:8000/users/381683968/articles
-
 Accept: application/json
 
 ### create user
@@ -13,7 +12,7 @@ POST http://127.0.0.1:8000/users
 Content-Type: application/json
 
 {
-  "telegram_id": 1111111,
+  "telegram_id": 11111112,
   "username": "string",
   "pet_name": "string",
   "language_code": "ru"
