@@ -74,6 +74,7 @@ def read_sent_to_user_articles(telegram_id: int, db: Session = Depends(get_db)):
     "/articles/{telegram_id}/user",
     response_model=list[schemas.ArticleBase],
     tags=["article"],
+    status_code=status.HTTP_200_OK,
 )
 def read_user_articles(telegram_id: int, db: Session = Depends(get_db)):
     """Get user articles matching language code and user_telegram_id."""
@@ -90,10 +91,21 @@ def read_articles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     return items
 
 
-@app.get("/articles/{article_id}", response_model=schemas.ArticleBase, tags=["article"])
+@app.get("/articles/{article_id}", response_model=schemas.ArticleResponse, tags=["article"])
 def read_article(article_id: int, db: Session = Depends(get_db)):
     """Read single article by id."""
     db_article = crud.get_article(db, article_id=article_id)
     if db_article is None:
         raise HTTPException(status_code=404, detail="Article not found")
+    list_sent_to_user = [i.telegram_id for i in db_article.sent_to_user]
+    print("list", list_sent_to_user)
     return db_article
+
+
+# @app.get("/articles/{article_id}", response_model=schemas.ArticleBase, tags=["article"])
+# def read_article(article_id: int, db: Session = Depends(get_db)):
+#     """Read single article by id."""
+#     db_article = crud.get_article(db, article_id=article_id)
+#     if db_article is None:
+#         raise HTTPException(status_code=404, detail="Article not found")
+#     return db_article

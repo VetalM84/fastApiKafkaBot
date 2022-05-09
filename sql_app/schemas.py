@@ -8,7 +8,7 @@ from pydantic import BaseModel, HttpUrl, Field
 class UserInArticleView(BaseModel):
     """What fields will be in nested sent_to_user list."""
 
-    id: int
+    # id: int
     telegram_id: int
 
     class Config:
@@ -30,6 +30,10 @@ class ArticleBase(BaseModel):
         """Enable ORM mode for all child methods."""
 
         orm_mode = True
+
+
+class ArticleResponse(ArticleBase):
+    sent_to_user: List[int] = []
 
 
 class ArticleCreate(BaseModel):
