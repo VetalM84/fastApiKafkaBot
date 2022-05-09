@@ -91,7 +91,7 @@ def read_articles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     return items
 
 
-@app.get("/articles/{article_id}", response_model=schemas.ArticleResponse, tags=["article"])
+@app.get("/articles/{article_id}", tags=["article"])
 def read_article(article_id: int, db: Session = Depends(get_db)):
     """Read single article by id."""
     db_article = crud.get_article(db, article_id=article_id)
@@ -99,7 +99,7 @@ def read_article(article_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Article not found")
     list_sent_to_user = [i.telegram_id for i in db_article.sent_to_user]
     print("list", list_sent_to_user)
-    return db_article
+    return list_sent_to_user
 
 
 # @app.get("/articles/{article_id}", response_model=schemas.ArticleBase, tags=["article"])
