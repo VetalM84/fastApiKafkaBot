@@ -14,7 +14,7 @@ def get_user(db: Session, user_telegram_id: int):
     )
 
 
-def get_articles_with_users(
+def get_articles_for_user(
     db: Session, user_telegram_id: int, skip: int = 0, limit: int = 100
 ):
     """Get user articles matching language code by user_telegram_id."""

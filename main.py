@@ -72,7 +72,7 @@ def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)
 )
 def read_user_articles(telegram_id: int, db: Session = Depends(get_db)):
     """Get user articles matching language code and user_telegram_id."""
-    db_articles = crud.get_articles_with_users(db, user_telegram_id=telegram_id)
+    db_articles = crud.get_articles_for_user(db, user_telegram_id=telegram_id)
     if db_articles is None:
         raise HTTPException(status_code=404, detail="Articles not found")
     return db_articles
