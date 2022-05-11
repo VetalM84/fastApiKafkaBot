@@ -20,12 +20,6 @@ def get_db():
         db.close()
 
 
-# @app.get("/users/", response_model=list[schemas.User], tags=["user"])
-# def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-#     users = crud.get_users(db, skip=skip, limit=limit)
-#     return users
-
-
 @app.post("/users/", response_model=schemas.UserBase, tags=["user"], status_code=status.HTTP_201_CREATED)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     """Create new user providing telegram id."""
@@ -37,11 +31,24 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 @app.get("/users/{telegram_id}", response_model=schemas.UserBase, tags=["user"], status_code=status.HTTP_200_OK)
 def read_user(telegram_id: int, db: Session = Depends(get_db)):
-    """Read user by telegram id."""
+    """Read user by telegram id without list of sent articles."""
     db_user = crud.get_user(db, user_telegram_id=telegram_id)
     if db_user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return db_user
+
+
+@app.get(
+    "/users/{telegram_id}/articles",
+    response_model=schemas.UserArticlesSentView,
+    tags=["user"],
+)
+def read_user_with_sent_articles(telegram_id: int, db: Session = Depends(get_db)):
+    """Get user info with a list of sent articles matching language code and user_telegram_id."""
+    db_articles = crud.get_user(db, user_telegram_id=telegram_id)
+    if db_articles is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_articles
 
 
 # @app.post("/users/{user_id}/items/", response_model=schemas.Item, tags=["item"])
@@ -58,19 +65,6 @@ def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)
 
 
 @app.get(
-    "/users/{telegram_id}/articles",
-    response_model=schemas.UserArticlesSentView,
-    tags=["user"],
-)
-def read_sent_to_user_articles(telegram_id: int, db: Session = Depends(get_db)):
-    """Get user articles matching language code and user_telegram_id."""
-    db_articles = crud.get_sent_to_user_articles(db, user_telegram_id=telegram_id)
-    if db_articles is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return db_articles
-
-
-@app.get(
     "/articles/{telegram_id}/user",
     response_model=list[schemas.ArticleBase],
     tags=["article"],
@@ -78,7 +72,7 @@ def read_sent_to_user_articles(telegram_id: int, db: Session = Depends(get_db)):
 )
 def read_user_articles(telegram_id: int, db: Session = Depends(get_db)):
     """Get user articles matching language code and user_telegram_id."""
-    db_articles = crud.get_user_articles(db, user_telegram_id=telegram_id)
+    db_articles = crud.get_articles_with_users(db, user_telegram_id=telegram_id)
     if db_articles is None:
         raise HTTPException(status_code=404, detail="Articles not found")
     return db_articles
@@ -91,9 +85,9 @@ def read_articles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     return items
 
 
-@app.get("/articles/{article_id}", tags=["article"])
+@app.get("/articles/{article_id}/user_list", tags=["article"])
 def read_article(article_id: int, db: Session = Depends(get_db)):
-    """Read single article by id."""
+    """Read single article by id and return a list of user id article sent to."""
     db_article = crud.get_article(db, article_id=article_id)
     if db_article is None:
         raise HTTPException(status_code=404, detail="Article not found")
@@ -102,10 +96,10 @@ def read_article(article_id: int, db: Session = Depends(get_db)):
     return list_sent_to_user
 
 
-# @app.get("/articles/{article_id}", response_model=schemas.ArticleBase, tags=["article"])
-# def read_article(article_id: int, db: Session = Depends(get_db)):
-#     """Read single article by id."""
-#     db_article = crud.get_article(db, article_id=article_id)
-#     if db_article is None:
-#         raise HTTPException(status_code=404, detail="Article not found")
-#     return db_article
+@app.get("/articles/{article_id}", response_model=schemas.ArticleBase, tags=["article"])
+def read_article(article_id: int, db: Session = Depends(get_db)):
+    """Read single article by id."""
+    db_article = crud.get_article(db, article_id=article_id)
+    if db_article is None:
+        raise HTTPException(status_code=404, detail="Article not found")
+    return db_article

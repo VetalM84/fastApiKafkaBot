@@ -12,7 +12,7 @@ POST http://127.0.0.1:8000/users
 Content-Type: application/json
 
 {
-  "telegram_id": 11111112,
+  "telegram_id": 111111123,
   "username": "string",
   "pet_name": "string",
   "language_code": "ru"

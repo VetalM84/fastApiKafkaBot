@@ -14,16 +14,7 @@ def get_user(db: Session, user_telegram_id: int):
     )
 
 
-def get_sent_to_user_articles(db: Session, user_telegram_id: int):
-    """Get user articles matching language code and user_telegram_id."""
-    return (
-        db.query(models.User)
-        .filter(models.User.telegram_id == user_telegram_id)
-        .first()
-    )
-
-
-def get_user_articles(
+def get_articles_with_users(
     db: Session, user_telegram_id: int, skip: int = 0, limit: int = 100
 ):
     """Get user articles matching language code by user_telegram_id."""

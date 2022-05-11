@@ -24,6 +24,7 @@ class User(Base):
     username = Column(String(50))
     pet_name = Column(String(50))
     language_code = Column(String(5))
+    # date_join = Column(DateTime(), server_default=text('NOW()')),
 
     sent_articles = relationship(
         "Article", secondary=sent_log, back_populates="sent_to_user"
