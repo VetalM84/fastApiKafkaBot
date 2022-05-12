@@ -3,7 +3,7 @@
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Table, text
 from sqlalchemy.orm import relationship
 
-from .database import Base
+from db.database import Base
 
 sent_log = Table(
     "sent_log",

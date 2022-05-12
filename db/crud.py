@@ -2,7 +2,8 @@
 
 from sqlalchemy.orm import Session
 
-from . import models, schemas
+import schemas
+from db import models
 
 
 def get_user(db: Session, user_telegram_id: int):
