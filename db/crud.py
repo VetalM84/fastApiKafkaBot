@@ -46,6 +46,11 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 
+def get_all_users(db: Session, skip: int = 0, limit: int = 100):
+    """Get all users."""
+    return db.query(models.User).offset(skip).limit(limit).all()
+
+
 def get_all_articles(db: Session, skip: int = 0, limit: int = 100):
     """Get all articles."""
     return db.query(models.Article).offset(skip).limit(limit).all()
@@ -66,3 +71,14 @@ def create_article(db: Session, article: schemas.ArticleCreate):
     db.commit()
     db.refresh(db_article)
     return db_article
+
+
+def set_article_sent(db: Session, data: schemas.SetSent):
+    db_article = db.query(models.Article).filter(models.Article.id == data.article_id).first()
+    db_user = db.query(models.User).filter(models.User.id == data.user_id).first()
+    # db_article.sent_to_user.append(db_user)
+    db_user.sent_articles.append(db_article)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user

@@ -8,6 +8,13 @@ from db import crud
 router = APIRouter(prefix='/users', tags=["user"])
 
 
+@router.get("/", response_model=list[schemas.UsersListId])
+def read_users_id(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    """Read all users ids."""
+    items = crud.get_all_users(db, skip=skip, limit=limit)
+    return items
+
+
 @router.get("/{telegram_id}", response_model=schemas.UserBase, status_code=status.HTTP_200_OK)
 def read_user(telegram_id: int, db: Session = Depends(get_db)):
     """Read user by telegram id without list of sent articles."""

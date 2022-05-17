@@ -76,6 +76,16 @@ class UserBase(BaseModel):
         orm_mode = True
 
 
+class UsersListId(BaseModel):
+    """Get all users ids."""
+    telegram_id: int
+
+    class Config:
+        """Enable ORM mode for all child methods."""
+
+        orm_mode = True
+
+
 class UserArticlesSentView(UserBase):
     """What fields will be in nested sent_articles list."""
 
@@ -97,3 +107,15 @@ class UserEdit(UserBase):
     """Serializer for editing a user."""
 
     id: int
+
+
+class SetSent(BaseModel):
+    """Set article as sent for user."""
+
+    user_id: int = Field(..., ge=0)
+    article_id: int = Field(..., ge=0)
+
+    class Config:
+        """Enable ORM mode."""
+
+        orm_mode = True
