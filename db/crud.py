@@ -1,5 +1,5 @@
 """Functions to create, read, update, and delete data from the database."""
-
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 import schemas
@@ -78,8 +78,17 @@ def set_article_sent(db: Session, data: schemas.SetSent):
     db_article = (
         db.query(models.Article).filter(models.Article.id == data.article_id).first()
     )
+    if not db_article:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Article with this id not found"
+        )
+
     db_user = db.query(models.User).filter(models.User.id == data.user_id).first()
-    # db_article.sent_to_user.append(db_user)
+    if not db_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"User with this id not found"
+        )
+
     db_user.sent_articles.append(db_article)
     db.add(db_user)
     db.commit()

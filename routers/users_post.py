@@ -19,7 +19,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
 
 
-@router.post("/set_sent/")
+@router.post("/set_sent/", status_code=status.HTTP_201_CREATED)
 def set_article_sent(data: schemas.SetSent, db: Session = Depends(get_db)):
     """Set article as sent for a user."""
     return crud.set_article_sent(db=db, data=data)
