@@ -1,3 +1,5 @@
+"""POST endpoint for articles."""
+
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 

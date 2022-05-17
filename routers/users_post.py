@@ -1,3 +1,5 @@
+"""Post endpoints for users."""
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -19,4 +21,5 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 @router.post("/set_sent/")
 def set_article_sent(data: schemas.SetSent, db: Session = Depends(get_db)):
+    """Set article as sent for a user."""
     return crud.set_article_sent(db=db, data=data)

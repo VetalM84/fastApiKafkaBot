@@ -1,3 +1,5 @@
+"""GET endpoints for articles."""
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
