@@ -41,7 +41,7 @@ Content-Type: application/json
 }
 
 ### set article as read
-POST http://127.0.0.1:8000/articles/set_sent
+POST http://127.0.0.1:8000/users/set_sent
 Content-Type: application/json
 
 {
