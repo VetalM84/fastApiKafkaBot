@@ -25,7 +25,8 @@ def get_articles_for_user(
         .first()
     )
     return (
-        db.query(models.Article).order_by(models.Article.id)
+        db.query(models.Article)
+        .order_by(models.Article.id)
         .filter(models.Article.language_code == current_user.language_code)
         .offset(skip)
         .limit(limit)
@@ -74,7 +75,9 @@ def create_article(db: Session, article: schemas.ArticleCreate):
 
 
 def set_article_sent(db: Session, data: schemas.SetSent):
-    db_article = db.query(models.Article).filter(models.Article.id == data.article_id).first()
+    db_article = (
+        db.query(models.Article).filter(models.Article.id == data.article_id).first()
+    )
     db_user = db.query(models.User).filter(models.User.id == data.user_id).first()
     # db_article.sent_to_user.append(db_user)
     db_user.sent_articles.append(db_article)
