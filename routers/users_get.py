@@ -17,7 +17,7 @@ def read_users_id(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     return items
 
 
-@router.get("/{telegram_id}", response_model=schemas.UserBase, status_code=status.HTTP_200_OK)
+@router.get("/{telegram_id}", response_model=schemas.UserEdit, status_code=status.HTTP_200_OK)
 def read_user(telegram_id: int, db: Session = Depends(get_db)):
     """Read user by telegram id without list of sent articles."""
     db_user = crud.get_user(db, user_telegram_id=telegram_id)
