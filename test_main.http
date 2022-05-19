@@ -48,3 +48,7 @@ Content-Type: application/json
   "user_id": 2,
   "article_id": 2
 }
+
+### list of users article sent to
+GET http://127.0.0.1:8000/articles/1/user_list
+Accept: application/json
