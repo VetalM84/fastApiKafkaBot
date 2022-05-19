@@ -37,7 +37,6 @@ def read_sent_list(article_id: int, db: Session = Depends(get_db)):
     if db_article is None:
         raise HTTPException(status_code=404, detail="Article not found")
     list_sent_to_user = [i.telegram_id for i in db_article.sent_to_user]
-    print("list", list_sent_to_user)
     return list_sent_to_user
 
 
