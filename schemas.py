@@ -76,9 +76,11 @@ class UserBase(BaseModel):
         orm_mode = True
 
 
-class UsersListId(BaseModel):
+class UserInfo(BaseModel):
     """Get all users ids."""
+    id: int
     telegram_id: int
+    language_code: str
 
     class Config:
         """Enable ORM mode for all child methods."""

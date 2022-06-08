@@ -10,7 +10,7 @@ from db import crud
 router = APIRouter(prefix='/users', tags=["user"])
 
 
-@router.get("/", response_model=list[schemas.UsersListId])
+@router.get("/", response_model=list[schemas.UserInfo])
 def read_users_id(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """Read all users ids."""
     items = crud.get_all_users(db, skip=skip, limit=limit)
