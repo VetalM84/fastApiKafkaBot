@@ -14,6 +14,8 @@ router = APIRouter(prefix='/users', tags=["user"])
 def read_users_id(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """Read all users ids."""
     items = crud.get_all_users(db, skip=skip, limit=limit)
+    if len(items) == 0:
+        raise HTTPException(status_code=404, detail="Users not found")
     return items
 
 
