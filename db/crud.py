@@ -62,10 +62,10 @@ def get_all_articles(db: Session, skip: int = 0, limit: int = 100):
     """Get all articles."""
     return (
         db.query(models.Article)
+        .order_by(models.Article.id)
         .offset(skip)
         .limit(limit)
         .all()
-        .order_by(models.Article.id)
     )
 
 
