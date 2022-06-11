@@ -49,12 +49,24 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 def get_all_users(db: Session, skip: int = 0, limit: int = 100):
     """Get all users."""
-    return db.query(models.User).offset(skip).limit(limit).all()
+    return (
+        db.query(models.User)
+        .filter(models.User.active == True)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def get_all_articles(db: Session, skip: int = 0, limit: int = 100):
     """Get all articles."""
-    return db.query(models.Article).offset(skip).limit(limit).all()
+    return (
+        db.query(models.Article)
+        .offset(skip)
+        .limit(limit)
+        .all()
+        .order_by(models.Article.id)
+    )
 
 
 def get_article(db: Session, article_id: int):
@@ -80,7 +92,8 @@ def set_article_sent(db: Session, data: schemas.SetSent):
     )
     if not db_article:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Article with this id not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Article with this id not found",
         )
 
     db_user = db.query(models.User).filter(models.User.id == data.user_id).first()

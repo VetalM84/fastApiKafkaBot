@@ -1,6 +1,15 @@
 """Models for SQLAlchemy."""
 
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Table, text
+from sqlalchemy import (
+    Boolean,
+    Column,
+    DateTime,
+    ForeignKey,
+    Integer,
+    String,
+    Table,
+    text,
+)
 from sqlalchemy.orm import relationship
 
 from db.database import Base
@@ -10,7 +19,7 @@ sent_log = Table(
     Base.metadata,
     Column("user_id", ForeignKey("users.id"), primary_key=True),
     Column("article_id", ForeignKey("articles.id"), primary_key=True),
-    Column('sent_time', DateTime(), server_default=text('NOW()')),
+    Column("sent_time", DateTime(), server_default=text("NOW()")),
 )
 
 
@@ -24,6 +33,7 @@ class User(Base):
     username = Column(String(50))
     pet_name = Column(String(50))
     language_code = Column(String(5))
+    active = Column(Boolean, default=True)
     # date_join = Column(DateTime(), server_default=text('NOW()')),
 
     sent_articles = relationship(

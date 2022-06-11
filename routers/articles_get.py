@@ -7,7 +7,7 @@ from db.database import get_db
 import schemas
 from db import crud
 
-router = APIRouter(prefix='/articles', tags=["article"])
+router = APIRouter(prefix="/articles", tags=["article"])
 
 
 @router.get(

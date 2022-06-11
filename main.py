@@ -15,6 +15,6 @@ app.include_router(users_post.router)
 models.Base.metadata.create_all(bind=engine)
 
 
-@app.get('/')
+@app.get("/")
 def index():
-    return {'message': 'Server is OK!'}
+    return {"message": "Server is OK!"}

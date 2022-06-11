@@ -78,6 +78,7 @@ class UserBase(BaseModel):
 
 class UserInfo(BaseModel):
     """Get all users ids."""
+
     id: int
     telegram_id: int
     language_code: str
