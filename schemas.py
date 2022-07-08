@@ -67,6 +67,7 @@ class UserBase(BaseModel):
     username: str = Field(..., max_length=50)
     pet_name: str = Field(..., max_length=50)
     language_code: str = Field(..., max_length=3, min_length=2)
+    active: bool = True
 
     # sent_articles: List[ArticleBase] = []
 
@@ -82,6 +83,21 @@ class UserInfo(BaseModel):
     id: int
     telegram_id: int
     language_code: str
+
+    class Config:
+        """Enable ORM mode for all child methods."""
+
+        orm_mode = True
+
+
+class UserEnable(BaseModel):
+    """Enable or disable user receiving messages."""
+
+    telegram_id: int | None = None
+    username: str | None = None
+    pet_name: str | None = None
+    language_code: str | None = None
+    active: bool
 
     class Config:
         """Enable ORM mode for all child methods."""

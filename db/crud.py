@@ -35,12 +35,27 @@ def get_articles_for_user(
 
 
 def create_user(db: Session, user: schemas.UserCreate):
+    """Create new user providing telegram id."""
     db_user = models.User(
         telegram_id=user.telegram_id,
         username=user.username,
         pet_name=user.pet_name,
         language_code=user.language_code,
     )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+
+def enable_user(db: Session, telegram_id: int, user: schemas.UserEnable):
+    """Enable or disable user receiving messages providing telegram id."""
+    db_user = (
+        db.query(models.User).filter(models.User.telegram_id == telegram_id).first()
+    )
+    user_data = user.dict(exclude_unset=True)
+    for key, value in user_data.items():
+        setattr(db_user, key, value)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
