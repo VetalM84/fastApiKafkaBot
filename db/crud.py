@@ -90,6 +90,7 @@ def get_article(db: Session, article_id: int):
 
 
 def create_article(db: Session, article: schemas.ArticleCreate):
+    """Create new article and save to DB."""
     db_article = models.Article(
         text=article.text,
         image_url=article.image_url,
@@ -102,6 +103,7 @@ def create_article(db: Session, article: schemas.ArticleCreate):
 
 
 def set_article_sent(db: Session, data: schemas.SetSent):
+    """Set article as sent for a user."""
     db_article = (
         db.query(models.Article).filter(models.Article.id == data.article_id).first()
     )
