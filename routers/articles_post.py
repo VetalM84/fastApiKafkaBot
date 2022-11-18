@@ -11,6 +11,6 @@ router = APIRouter(prefix='/articles', tags=["article"])
 
 
 @router.post("/", response_model=schemas.ArticleCreate, status_code=status.HTTP_201_CREATED)
-def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)):
+async def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)):
     """Create new article."""
     return crud.create_article(db=db, article=article)

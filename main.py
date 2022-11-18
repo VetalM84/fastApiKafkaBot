@@ -16,6 +16,6 @@ models.Base.metadata.create_all(bind=engine)
 
 
 @app.get("/")
-def index():
+async def index():
     """Check health server status."""
     return {"message": "Server is OK!"}

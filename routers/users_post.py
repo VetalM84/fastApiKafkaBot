@@ -11,7 +11,7 @@ router = APIRouter(prefix="/users", tags=["user"])
 
 
 @router.post("/", response_model=schemas.UserBase, status_code=status.HTTP_201_CREATED)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+async def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     """Create new user providing telegram id."""
     db_user = crud.get_user(db, user_telegram_id=user.telegram_id)
     if db_user:
@@ -27,7 +27,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     response_model=schemas.UserBase,
     status_code=status.HTTP_200_OK,
 )
-def toggle_user_status(
+async def toggle_user_status(
     telegram_id: int, user: schemas.UserEnable, db: Session = Depends(get_db)
 ):
     """Enable or disable user receiving messages providing telegram id."""
@@ -41,6 +41,6 @@ def toggle_user_status(
 
 
 @router.post("/set_sent", status_code=status.HTTP_201_CREATED)
-def set_article_sent(data: schemas.SetSent, db: Session = Depends(get_db)):
+async def set_article_sent(data: schemas.SetSent, db: Session = Depends(get_db)):
     """Set article as sent for a user."""
     return crud.set_article_sent(db=db, data=data)
