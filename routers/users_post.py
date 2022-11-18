@@ -27,7 +27,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     response_model=schemas.UserBase,
     status_code=status.HTTP_200_OK,
 )
-def create_user(
+def toggle_user_status(
     telegram_id: int, user: schemas.UserEnable, db: Session = Depends(get_db)
 ):
     """Enable or disable user receiving messages providing telegram id."""
